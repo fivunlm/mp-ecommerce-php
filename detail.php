@@ -18,10 +18,11 @@ $item->unit_price = $_POST['price'];
 $item->picture_url = 'https://fivunlm-mp-commerce-php.herokuapp.com/' . $_POST['img'];
 
 $payer = new MercadoPago\Payer();
-$payer->name = 'Lalo Landa';
+$payer->name = 'Lalo';
+$payer->surname = 'Landa';
 $payer->email = 'test_user_63274575@testuser.com';
 $payer->phone = ['area_code' => '11', 'number' => '22223333'];
-$payer->address = ['zip_code' => '1111', 'street_name' => 'False', 'street_number' => '123'];
+$payer->address = ['zip_code' => '1111', 'street_name' => 'False', 'street_number' => 123];
 
 $preference->payer = $payer;
 $preference->items = array($item);
@@ -41,6 +42,7 @@ $preference->back_urls = [
         'pending' => 'https://fivunlm-mp-commerce-php.herokuapp.com/pending.php',
         'failure' => 'https://fivunlm-mp-commerce-php.herokuapp.com/failure.php'
 ];
+$preference->notification_url = "https://fivunlm-mp-commerce-php.herokuapp.com/notifications.php";
 $preference->save();
 ?>
 
@@ -178,13 +180,14 @@ $preference->save();
                                             <?php echo "$" . $_POST['unit'] ?>
                                         </h3>
                                     </div>
-                                    <form action="/procesar-pago" method="POST">
-                                        <script
-                                                src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
-                                                data-preference-id="<?php echo $preference->id; ?>">
-                                        </script>
-                                    </form>
-                                    <button type="submit" class="mercadopago-button" formmethod="post">Pagar</button>
+<!--                                    <form action="/procesar-pago" method="POST">-->
+<!--                                        <script-->
+<!--                                                src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"-->
+<!--                                                data-preference-id="--><?php //echo $preference->id; ?><!--">-->
+<!--                                        </script>-->
+<!--                                    </form>-->
+<!--                                    <button type="submit" class="mercadopago-button" formmethod="post">Pagar</button>-->
+                                    <a class="mercadopago-button"  href="<?php echo $preference->init_point; ?>">Pagar con Mercado Pago</a>
                                 </div>
                             </div>
                         </div>
