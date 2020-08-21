@@ -36,7 +36,7 @@ $preference->payment_methods = array(
     ),
     "installments" => 6
 );
-$preference->auto_return = 'all';
+$preference->auto_return = 'approved';
 $preference->back_urls = [
         'success' => 'https://fivunlm-mp-commerce-php.herokuapp.com/sucess.php',
         'pending' => 'https://fivunlm-mp-commerce-php.herokuapp.com/pending.php',
