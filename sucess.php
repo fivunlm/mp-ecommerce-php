@@ -1,7 +1,10 @@
 <script src="https://www.mercadopago.com/v2/security.js"></script>
 <pre>
-    ╰(*°▽°*)╯
+    ╰(*°▽°*)╯<br>
     <?php
-        print_r(preg_split("&", $_SERVER['QUERY_STRING']))
+    //echo $_SERVER['QUERY_STRING'];
+    foreach(explode("&", $_SERVER['QUERY_STRING']) as $qs){
+        echo $qs . '<br>';
+    }
     ?>
 </pre>
