@@ -1,3 +1,5 @@
 <?php
 $jsonString = file_get_contents("php://input");
-fwrite(STDOUT, $jsonString);
+$out = fopen('php://output', 'w');
+fputs($out, $jsonString); //writing output operation
+fclose($out);
