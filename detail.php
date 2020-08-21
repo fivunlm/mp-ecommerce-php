@@ -1,3 +1,49 @@
+<?php
+// SDK de Mercado Pago
+require __DIR__ .  '/vendor/autoload.php';
+
+// Agrega credenciales
+MercadoPago\SDK::setAccessToken('APP_USR-6317427424180639-042414-47e969706991d3a442922b0702a0da44-469485398');
+MercadoPago\SDK::setIntegratorId('dev_24c65fb163bf11ea96500242ac130004');
+
+$preference = new MercadoPago\Preference();
+
+// Crea un ítem en la preferencia
+$item = new MercadoPago\Item();
+$item->id = '1234';
+$item->title = $_POST['title'];
+$item->description =  'Dispositivo móvil de Tienda e-commerce';
+$item->quantity =  1;
+$item->unit_price = $_POST['price'];
+$item->picture_url = 'https://fivunlm-mp-commerce-php.herokuapp.com/' . $_POST['img'];
+
+$payer = new MercadoPago\Payer();
+$payer->name = 'Lalo Landa';
+$payer->email = 'test_user_63274575@testuser.com';
+$payer->phone = ['area_code' => '11', 'number' => '22223333'];
+$payer->address = ['zip_code' => '1111', 'street_name' => 'False', 'street_number' => '123'];
+
+$preference->payer = $payer;
+$preference->items = array($item);
+$preference->external_reference = "lopez.fernando.damian@gmail.com";
+$preference->payment_methods = array(
+    "excluded_payment_methods" => array(
+        array("id" => "amex")
+    ),
+    "excluded_payment_types" => array(
+        array("id" => "atm")
+    ),
+    "installments" => 6
+);
+$preference->auto_return = 'all';
+$preference->back_urls = [
+        'success' => 'https://fivunlm-mp-commerce-php.herokuapp.com/sucess.php',
+        'pending' => 'https://fivunlm-mp-commerce-php.herokuapp.com/pending.php',
+        'failure' => 'https://fivunlm-mp-commerce-php.herokuapp.com/failure.php'
+];
+$preference->save();
+?>
+
 <!DOCTYPE html>
 <html class="supports-animation supports-columns svg no-touch no-ie no-oldie no-ios supports-backdrop-filter as-mouseuser" lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
@@ -11,6 +57,8 @@
     src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
     crossorigin="anonymous"></script>
+    <script src="https://www.mercadopago.com/v2/security.js" view="item"></script>
+
 
     <link rel="stylesheet" href="./assets/category-landing.css" media="screen, print">
 
@@ -130,6 +178,12 @@
                                             <?php echo "$" . $_POST['unit'] ?>
                                         </h3>
                                     </div>
+                                    <form action="/procesar-pago" method="POST">
+                                        <script
+                                                src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
+                                                data-preference-id="<?php echo $preference->id; ?>">
+                                        </script>
+                                    </form>
                                     <button type="submit" class="mercadopago-button" formmethod="post">Pagar</button>
                                 </div>
                             </div>
